@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::selection {
+  background: #c8a35a;
+  color: #0a0908;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image: radial-gradient(
+      circle at 15% 0%,
+      rgba(200, 163, 90, 0.06),
+      transparent 45%
+    ),
+    radial-gradient(circle at 85% 20%, rgba(92, 26, 26, 0.08), transparent 40%);
+}
+
+/* thin gold divider */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(200, 163, 90, 0.6),
+    transparent
+  );
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #c8a35a 0%,
+    #e0c48a 25%,
+    #c8a35a 50%,
+    #9c7c3d 75%,
+    #c8a35a 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* custom scrollbar to match theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0908;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2622;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c8a35a;
+}
+
+.stagger > * {
+  opacity: 0;
+}
+.stagger > *:nth-child(1) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s forwards; }
+.stagger > *:nth-child(2) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
+.stagger > *:nth-child(3) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s forwards; }
+.stagger > *:nth-child(4) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.35s forwards; }
+.stagger > *:nth-child(5) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s forwards; }
+.stagger > *:nth-child(n+6) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.55s forwards; }
