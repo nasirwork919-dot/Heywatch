@@ -19,9 +19,9 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Royal Luxury Watches | Fine Swiss Timepieces",
+  title: "Royal Luxury Watches | Fine Timepieces",
   description:
-    "A curated house of Swiss timepieces — Rolex, Patek Philippe, Audemars Piguet, Hublot, Omega and more. Authenticated craftsmanship, delivered worldwide.",
+    "A curated house of fine timepieces across our in-house collections. Inspected craftsmanship, delivered worldwide.",
 };
 
 export default function RootLayout({

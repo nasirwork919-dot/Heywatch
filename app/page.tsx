@@ -29,15 +29,14 @@ export default function Home() {
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
           <div className="stagger max-w-2xl">
             <p className="text-xs uppercase tracking-widest2 text-gold">
-              Est. Fine Swiss Timepieces
+              Est. Fine Timepieces
             </p>
             <h1 className="mt-6 font-display text-5xl italic leading-[1.05] text-parchment sm:text-6xl lg:text-7xl">
               Time, <span className="text-shimmer animate-shimmer not-italic">Mastered</span>.
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-bone/70">
-              346 rare and iconic references from Rolex, Patek Philippe,
-              Audemars Piguet, Hublot and more — each piece inspected,
-              authenticated, and delivered worldwide.
+              346 rare and iconic references across our in-house
+              collections — each piece inspected and delivered worldwide.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
@@ -47,10 +46,10 @@ export default function Home() {
                 Explore The Collection
               </Link>
               <Link
-                href="/brand/rolex"
+                href="/brand/marinier"
                 className="border border-line px-8 py-4 text-sm uppercase tracking-wider text-bone/80 transition-colors hover:border-gold hover:text-gold"
               >
-                Shop Rolex
+                Shop Marinier
               </Link>
             </div>
           </div>
@@ -99,7 +98,7 @@ export default function Home() {
           <div>
             <p className="text-xs uppercase tracking-widest2 text-gold">The Promise</p>
             <h2 className="mt-4 font-display text-3xl leading-tight text-parchment sm:text-4xl">
-              Authenticated. Insured.
+              Inspected. Insured.
               <br />
               Delivered With Care.
             </h2>

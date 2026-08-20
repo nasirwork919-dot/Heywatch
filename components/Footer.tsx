@@ -13,9 +13,8 @@ export default function Footer() {
               Royal<span className="text-gold">.</span>
             </span>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-bone/60">
-              A curated house of fine Swiss timepieces. Every watch is
-              inspected, authenticated, and shipped with a two-year
-              international warranty.
+              A curated house of fine in-house timepieces. Every watch is
+              inspected and shipped with a two-year international warranty.
             </p>
           </div>
 

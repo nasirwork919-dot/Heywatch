@@ -18,6 +18,9 @@
 *.pem
 npm-debug.log*
 
+# raw scraped source data - not for distribution
+/scraped-products
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

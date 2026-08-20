@@ -89,6 +89,6 @@ scripts/seed.ts       optional: push products.json into Supabase
 - **Orders table** is locked down with RLS — all reads/writes happen via the
   service-role key inside `/api/checkout` and `/api/webhook`, never from the
   browser.
-- One product ("Tag Heuer Tag Heuer Aquaracer Professional") had no matching
-  images in your spreadsheet — it will render without a gallery. Worth a
-  quick check upstream.
+- Catalog is organized under 9 in-house collection names (Ironclad, Marinier,
+  Skyline, Titanforge, Aurelian, Orbital, Cariste, Velocity, Aeroform) rather
+  than third-party brand names.
