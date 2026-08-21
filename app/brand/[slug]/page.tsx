@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import {
   getProductsByBrand,
   getBrandNameFromSlug,
   getAllBrands,
-} from "@/lib/products";
+} from "@/lib/products-data";
 import ProductCard from "@/components/ProductCard";
 
 export function generateStaticParams() {
@@ -37,3 +37,4 @@ export default function BrandPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+

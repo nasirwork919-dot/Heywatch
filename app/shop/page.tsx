@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import { getAllProducts, getAllBrands } from "@/lib/products";
+﻿import { Suspense } from "react";
+import { getAllProducts, getAllBrands } from "@/lib/products-data";
 import ShopGrid from "@/components/ShopGrid";
 
 export const metadata = { title: "Shop All Watches | Royal Luxury Watches" };
@@ -14,3 +14,4 @@ export default function ShopPage() {
     </Suspense>
   );
 }
+

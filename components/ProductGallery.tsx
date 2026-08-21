@@ -16,15 +16,13 @@ export default function ProductGallery({
   return (
     <div>
       <div className="relative aspect-square overflow-hidden bg-ink">
-        {shown[active] && (
-          <ProductImage
-            src={shown[active]}
-            alt={alt}
-            fill
-            priority
-            className="object-cover"
-          />
-        )}
+        <ProductImage
+          src={shown[active] || ""}
+          alt={alt}
+          fill
+          priority
+          className="object-cover"
+        />
       </div>
       {shown.length > 1 && (
         <div className="mt-4 grid grid-cols-6 gap-2">

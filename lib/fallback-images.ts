@@ -1,4 +1,4 @@
-// Free-license stock photos (Unsplash License: free for commercial use, no
+﻿// Free-license stock photos (Unsplash License: free for commercial use, no
 // permission required) used only when a product's real image URL fails to
 // load. These are generic, representative watch photos — not photos of the
 // specific referenced models.
@@ -7,6 +7,8 @@
 // (Rolex, Omega, Hublot, Audemars Piguet, TAG Heuer, Patek Philippe, Cartier,
 // Breitling, Richard Mille) — several otherwise-generic-looking stock photos
 // were dropped for exactly that reason (visible ROLEX/BREITLING dial text).
+import { stableHash } from "./hash";
+
 export const FALLBACK_WATCH_IMAGES = [
   "https://images.unsplash.com/photo-1670177257750-9b47927f68eb?auto=format&fit=crop&w=800&q=80",
   "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
@@ -19,10 +21,6 @@ export const FALLBACK_WATCH_IMAGES = [
 ];
 
 export function fallbackImageFor(seed: string): string {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
-  }
-  const index = Math.abs(hash) % FALLBACK_WATCH_IMAGES.length;
+  const index = stableHash(seed) % FALLBACK_WATCH_IMAGES.length;
   return FALLBACK_WATCH_IMAGES[index];
 }

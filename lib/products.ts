@@ -1,4 +1,4 @@
-import type { Product } from "./types";
+﻿import type { Product } from "./types";
 import rawProducts from "@/data/products.json";
 import rawBrands from "@/data/brands.json";
 

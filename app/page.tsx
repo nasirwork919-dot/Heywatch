@@ -1,6 +1,6 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ProductImage from "@/components/ProductImage";
-import { getAllProducts, getAllBrands } from "@/lib/products";
+import { getAllProducts, getAllBrands } from "@/lib/products-data";
 import ProductCard from "@/components/ProductCard";
 
 export default function Home() {
@@ -14,15 +14,13 @@ export default function Home() {
       {/* Hero */}
       <section className="relative flex min-h-[88vh] items-center overflow-hidden border-b border-line">
         <div className="absolute inset-0">
-          {heroImage && (
-            <ProductImage
-              src={heroImage}
-              alt=""
-              fill
-              priority
-              className="object-cover opacity-30"
-            />
-          )}
+          <ProductImage
+            src={heroImage || ""}
+            alt=""
+            fill
+            priority
+            className="object-cover opacity-30"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/40" />
         </div>
 
@@ -36,7 +34,7 @@ export default function Home() {
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-bone/70">
               346 rare and iconic references across our in-house
-              collections — each piece inspected and delivered worldwide.
+              collections â€” each piece inspected and delivered worldwide.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
@@ -105,7 +103,7 @@ export default function Home() {
             <p className="mt-6 max-w-md text-sm leading-relaxed text-bone/70">
               Every timepiece that leaves our atelier is inspected by our
               in-house horologists, backed by a two-year international
-              warranty, and shipped fully insured — wherever you are in the
+              warranty, and shipped fully insured â€” wherever you are in the
               world.
             </p>
             <Link
@@ -118,14 +116,12 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-4">
             {products.slice(8, 12).map((p) => (
               <div key={p.id} className="relative aspect-square overflow-hidden bg-ink">
-                {p.images[0] && (
-                  <ProductImage
-                    src={p.images[0]}
-                    alt={p.name}
-                    fill
-                    className="object-cover"
-                  />
-                )}
+                <ProductImage
+                  src={p.images[0] || ""}
+                  alt={p.name}
+                  fill
+                  className="object-cover"
+                />
               </div>
             ))}
           </div>
@@ -134,3 +130,4 @@ export default function Home() {
     </main>
   );
 }
+

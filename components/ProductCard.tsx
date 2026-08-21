@@ -22,15 +22,13 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       <Link href={`/product/${product.slug}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-ink">
-          {img1 && (
-            <ProductImage
-              src={hover ? img2 : img1}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 50vw, 25vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          )}
+          <ProductImage
+            src={(hover ? img2 : img1) || ""}
+            alt={product.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
       </Link>

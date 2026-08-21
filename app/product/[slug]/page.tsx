@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   getProductBySlug,
   getAllProducts,
   formatPrice,
   getRelatedProducts,
-} from "@/lib/products";
+} from "@/lib/products-data";
 import ProductGallery from "@/components/ProductGallery";
 import AddToCartPanel from "@/components/AddToCartPanel";
 import ProductCard from "@/components/ProductCard";
@@ -94,3 +94,4 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
