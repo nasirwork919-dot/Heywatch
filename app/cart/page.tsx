@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ProductImage from "@/components/ProductImage";
 import { useCart } from "@/store/cart";
-import { formatPrice } from "@/lib/products";
+import { formatPrice } from "@/lib/format";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function CartPage() {

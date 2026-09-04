@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 ::selection {
-  background: #c8a35a;
-  color: #0a0908;
+  background: #b99652;
+  color: #090806;
 }
 
 html {
@@ -12,38 +12,50 @@ html {
 }
 
 body {
+  min-height: 100vh;
   background-image: radial-gradient(
-      circle at 15% 0%,
-      rgba(200, 163, 90, 0.06),
-      transparent 45%
+      circle at 12% -8%,
+      rgba(185, 150, 82, 0.1),
+      transparent 32%
     ),
-    radial-gradient(circle at 85% 20%, rgba(92, 26, 26, 0.08), transparent 40%);
+    radial-gradient(circle at 88% 16%, rgba(100, 31, 37, 0.09), transparent 34%);
+  background-attachment: fixed;
 }
 
-/* thin gold divider */
+button,
+a,
+input,
+select {
+  outline-offset: 4px;
+}
+
+:focus-visible {
+  outline: 1px solid #d6b66d;
+}
+
+/* subtle editorial divider */
 .rule {
   height: 1px;
   background: linear-gradient(
     to right,
     transparent,
-    rgba(200, 163, 90, 0.6),
+    rgba(185, 150, 82, 0.52),
     transparent
   );
 }
 
-.text-shimmer {
-  background: linear-gradient(
-    90deg,
-    #c8a35a 0%,
-    #e0c48a 25%,
-    #c8a35a 50%,
-    #9c7c3d 75%,
-    #c8a35a 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #b99652;
+}
+
+.luxury-panel {
+  border: 1px solid rgba(185, 150, 82, 0.14);
+  background: linear-gradient(145deg, rgba(26, 23, 20, 0.96), rgba(13, 12, 10, 0.96));
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.3);
 }
 
 /* custom scrollbar to match theme */
@@ -51,22 +63,27 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0908;
+  background: #090806;
 }
 ::-webkit-scrollbar-thumb {
   background: #2a2622;
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c8a35a;
+  background: #b99652;
 }
 
-.stagger > * {
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
-.stagger > *:nth-child(1) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s forwards; }
-.stagger > *:nth-child(2) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
-.stagger > *:nth-child(3) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s forwards; }
-.stagger > *:nth-child(4) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.35s forwards; }
-.stagger > *:nth-child(5) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s forwards; }
-.stagger > *:nth-child(n+6) { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.55s forwards; }

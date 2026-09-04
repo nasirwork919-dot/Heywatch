@@ -2,7 +2,10 @@
 import { getAllProducts, getAllBrands } from "@/lib/products-data";
 import ShopGrid from "@/components/ShopGrid";
 
-export const metadata = { title: "Shop All Watches | Royal Luxury Watches" };
+export const metadata = {
+  title: "Shop All Watches",
+  description: "Explore the complete Royal Luxury Watches collection.",
+};
 
 export default function ShopPage() {
   const products = getAllProducts();

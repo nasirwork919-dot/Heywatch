@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
@@ -16,11 +16,21 @@ export default function ShopGrid({
 }) {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
+  const catalogMaxPrice = Math.ceil(Math.max(...products.map((p) => p.price), 100) / 50) * 50;
 
   const [activeBrand, setActiveBrand] = useState<string>("all");
   const [sort, setSort] = useState<SortKey>("featured");
   const [query, setQuery] = useState(initialQuery);
-  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [maxPrice, setMaxPrice] = useState<number>(catalogMaxPrice);
+  const [visibleCount, setVisibleCount] = useState(24);
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
+
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [activeBrand, query, sort, maxPrice]);
 
   const filtered = useMemo(() => {
     let list = products;
@@ -46,76 +56,77 @@ export default function ShopGrid({
   }, [products, activeBrand, query, sort, maxPrice]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-      <div className="mb-10">
-        <p className="text-xs uppercase tracking-widest2 text-gold">The Full Collection</p>
-        <h1 className="mt-2 font-display text-4xl text-parchment">All Watches</h1>
+    <div className="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
+      <div className="mb-10 max-w-2xl">
+        <p className="eyebrow">The full collection</p>
+        <h1 className="mt-3 font-display text-4xl font-light text-parchment sm:text-5xl">Find your signature piece.</h1>
+        <p className="mt-4 text-sm leading-relaxed text-bone/50">
+          Explore {products.length} timepieces across {brands.length} distinctive collections.
+        </p>
       </div>
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Filters */}
-        <aside className="w-full flex-shrink-0 lg:w-64">
-          <div className="mb-8">
+      <div className="mb-10 border-y border-line/80 py-5">
+        <div className="grid gap-5 lg:grid-cols-[minmax(220px,1fr)_2fr_220px] lg:items-center">
+          <div className="relative">
+            <label htmlFor="catalog-search" className="sr-only">Search the collection</label>
             <input
+              id="catalog-search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search..."
-              className="w-full border-b border-line bg-transparent py-2 text-sm text-parchment placeholder:text-bone/40 focus:border-gold focus:outline-none"
+              placeholder="Search the collection"
+              className="w-full border-b border-line bg-transparent py-2.5 text-sm text-parchment placeholder:text-bone/35 focus:border-gold focus:outline-none"
             />
           </div>
 
-          <div className="mb-8">
-            <h4 className="mb-3 text-xs uppercase tracking-widest2 text-gold">Brand</h4>
-            <ul className="space-y-2">
-              <li>
+          <div className="flex flex-wrap gap-2" aria-label="Filter by collection">
                 <button
                   onClick={() => setActiveBrand("all")}
-                  className={`text-sm ${
-                    activeBrand === "all" ? "text-gold" : "text-bone/70 hover:text-gold"
+                  className={`border px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                    activeBrand === "all" ? "border-gold bg-gold text-obsidian" : "border-line text-bone/55 hover:border-gold/60 hover:text-gold-light"
                   }`}
                 >
-                  All Brands ({products.length})
+                  All
                 </button>
-              </li>
               {brands.map((b) => (
-                <li key={b.slug}>
                   <button
+                    key={b.slug}
                     onClick={() => setActiveBrand(b.name)}
-                    className={`text-sm ${
-                      activeBrand === b.name ? "text-gold" : "text-bone/70 hover:text-gold"
+                    className={`border px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                      activeBrand === b.name ? "border-gold bg-gold text-obsidian" : "border-line text-bone/55 hover:border-gold/60 hover:text-gold-light"
                     }`}
                   >
-                    {b.name} ({b.count})
+                    {b.name}
                   </button>
-                </li>
               ))}
-            </ul>
           </div>
 
-          <div className="mb-8">
-            <h4 className="mb-3 text-xs uppercase tracking-widest2 text-gold">
-              Max Price: ${maxPrice}
-            </h4>
+          <div>
+            <label htmlFor="max-price" className="mb-2 flex justify-between text-[10px] font-semibold uppercase tracking-[0.14em] text-bone/50">
+              <span>Max price</span><span className="text-gold">${maxPrice}</span>
+            </label>
             <input
+              id="max-price"
               type="range"
-              min={100}
-              max={1000}
+              min={50}
+              max={catalogMaxPrice}
               step={10}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
               className="w-full accent-gold"
             />
-          </div>
-        </aside>
+        </div>
+      </div>
+      </div>
 
-        {/* Grid */}
-        <div className="flex-1">
-          <div className="mb-6 flex items-center justify-between">
-            <p className="text-sm text-bone/50">{filtered.length} results</p>
+        <div>
+          <div className="mb-7 flex items-center justify-between gap-4">
+            <p className="text-xs uppercase tracking-[0.15em] text-bone/40">Showing {Math.min(visibleCount, filtered.length)} of {filtered.length}</p>
+            <label htmlFor="catalog-sort" className="sr-only">Sort products</label>
             <select
+              id="catalog-sort"
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
-              className="border border-line bg-charcoal px-3 py-2 text-sm text-bone/80 focus:border-gold focus:outline-none"
+              className="border border-line bg-charcoal px-4 py-2.5 text-xs text-bone/70 focus:border-gold focus:outline-none"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>
@@ -129,14 +140,25 @@ export default function ShopGrid({
               No watches match your filters.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-              {filtered.map((p) => (
+            <>
+            <div className="grid grid-cols-1 gap-x-5 gap-y-10 min-[460px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {filtered.slice(0, visibleCount).map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
+            {visibleCount < filtered.length && (
+              <div className="mt-14 text-center">
+                <button
+                  onClick={() => setVisibleCount((count) => count + 24)}
+                  className="border border-gold/50 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold hover:text-obsidian"
+                >
+                  Load more timepieces
+                </button>
+              </div>
+            )}
+            </>
           )}
         </div>
-      </div>
     </div>
   );
 }

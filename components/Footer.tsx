@@ -5,12 +5,12 @@ export default function Footer() {
   const brands = getAllBrands();
 
   return (
-    <footer className="border-t border-line bg-charcoal">
-      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+    <footer className="border-t border-line bg-charcoal/80">
+      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <span className="font-display text-2xl text-parchment">
-              Royal<span className="text-gold">.</span>
+            <span className="font-display text-3xl font-light text-parchment">
+              Royal<span className="italic text-gold">.</span>
             </span>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-bone/60">
               A curated house of fine in-house timepieces. Every watch is
@@ -58,21 +58,12 @@ export default function Footer() {
 
           <div>
             <h4 className="mb-4 text-xs uppercase tracking-widest2 text-gold">
-              Newsletter
+              The House
             </h4>
-            <p className="mb-3 text-sm text-bone/60">
-              New arrivals and private offers, occasionally.
+            <p className="mb-5 text-sm leading-relaxed text-bone/60">
+              Discover the complete world of Royal and find the reference that feels entirely your own.
             </p>
-            <form className="flex border-b border-line pb-2">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="w-full bg-transparent text-sm text-parchment placeholder:text-bone/40 focus:outline-none"
-              />
-              <button type="submit" className="text-xs uppercase tracking-wider text-gold">
-                Join
-              </button>
-            </form>
+            <Link href="/shop" className="inline-block border-b border-gold/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold transition-colors hover:text-gold-light">Explore all timepieces</Link>
           </div>
         </div>
 

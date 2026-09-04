@@ -15,13 +15,14 @@ export default function ProductGallery({
 
   return (
     <div>
-      <div className="relative aspect-square overflow-hidden bg-ink">
+      <div className="relative aspect-square overflow-hidden border border-line/70 bg-[#efede8]">
         <ProductImage
           src={shown[active] || ""}
           alt={alt}
           fill
           priority
-          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className="object-contain"
         />
       </div>
       {shown.length > 1 && (
@@ -30,11 +31,13 @@ export default function ProductGallery({
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`relative aspect-square overflow-hidden bg-ink transition-opacity ${
-                active === i ? "ring-1 ring-gold" : "opacity-60 hover:opacity-100"
+              aria-label={`View image ${i + 1} of ${shown.length}`}
+              aria-pressed={active === i}
+              className={`relative aspect-square overflow-hidden border bg-[#efede8] transition-opacity ${
+                active === i ? "border-gold" : "border-line opacity-55 hover:opacity-100"
               }`}
             >
-              <ProductImage src={src} alt={`${alt} ${i + 1}`} fill className="object-cover" />
+              <ProductImage src={src} alt="" fill sizes="120px" className="object-cover" />
             </button>
           ))}
         </div>

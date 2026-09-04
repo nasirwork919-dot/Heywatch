@@ -2,6 +2,8 @@
 import rawProducts from "@/data/products.json";
 import rawBrands from "@/data/brands.json";
 
+export { formatPrice } from "./format";
+
 // Static catalog (bundled at build time). Swap for Supabase queries in
 // lib/products-db.ts once you've run `npm run seed` if you want the catalog
 // to be editable from Supabase directly. See README for details.
@@ -47,12 +49,4 @@ export function searchProducts(query: string): Product[] {
       p.brand.toLowerCase().includes(q) ||
       p.model.toLowerCase().includes(q)
   );
-}
-
-export function formatPrice(price: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(price);
 }
