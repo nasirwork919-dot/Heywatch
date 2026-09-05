@@ -109,6 +109,17 @@ export default function CheckoutPage() {
             Payments are processed securely by Stripe. You will be redirected
             to complete your purchase.
           </p>
+          <p className="text-center text-[11px] leading-5 text-bone/40">
+            By continuing, you agree to our{" "}
+            <Link href="/terms-and-conditions" className="text-gold/80 underline underline-offset-4 hover:text-gold-light">
+              Terms &amp; Conditions
+            </Link>{" "}
+            and acknowledge our{" "}
+            <Link href="/privacy-policy" className="text-gold/80 underline underline-offset-4 hover:text-gold-light">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </form>
 
         {/* Order summary */}

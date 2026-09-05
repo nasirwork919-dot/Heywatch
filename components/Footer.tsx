@@ -60,6 +60,16 @@ export default function Footer() {
               </li>
               <li>International Shipping</li>
               <li>2-Year Warranty</li>
+              <li>
+                <Link href="/privacy-policy" className="hover:text-gold transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-and-conditions" className="hover:text-gold transition-colors">
+                  Terms &amp; Conditions
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -78,7 +88,15 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 text-xs text-bone/40 md:flex-row">
           <span>© {new Date().getFullYear()} HEYWATCHES. All rights reserved.</span>
-          <span>Crafted with precision.</span>
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+            <Link href="/privacy-policy" className="transition-colors hover:text-gold">
+              Privacy
+            </Link>
+            <Link href="/terms-and-conditions" className="transition-colors hover:text-gold">
+              Terms
+            </Link>
+            <span>Crafted with precision.</span>
+          </div>
         </div>
       </div>
     </footer>
