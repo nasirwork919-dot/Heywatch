@@ -34,7 +34,7 @@ export default function Header({
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-2 sm:px-8 lg:px-12">
         <Link href="/" className="group flex shrink-0 items-center gap-2.5 leading-none" aria-label="HEYWATCHES home">
           <Image
-            src="/heywatches-logo.jpeg"
+            src="/heywatches-logo-transparent.png"
             alt=""
             width={64}
             height={64}

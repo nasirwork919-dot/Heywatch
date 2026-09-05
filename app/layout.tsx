@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description:
     "Explore distinctive luxury timepieces from Rolex, Audemars Piguet, Richard Mille, Patek Philippe, Hublot, and Breitling.",
   icons: {
-    icon: "/heywatches-logo.jpeg",
+    icon: "/heywatches-logo-transparent.png",
   },
 };
 

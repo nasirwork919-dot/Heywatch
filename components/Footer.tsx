@@ -12,7 +12,7 @@ export default function Footer() {
           <div>
             <Link href="/" aria-label="HEYWATCHES home" className="inline-block">
               <Image
-                src="/heywatches-logo.jpeg"
+                src="/heywatches-logo-transparent.png"
                 alt="HEYWATCHES — Time. Style. Status."
                 width={160}
                 height={160}
