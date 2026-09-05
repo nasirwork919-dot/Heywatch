@@ -1,7 +1,7 @@
-# Royal Luxury Watches
+# HEYWATCHES
 
-A full e-commerce storefront built from your product catalog: 346 watches
-across 9 brands, real cart, real Stripe checkout, orders stored in Supabase.
+A full e-commerce storefront built from your product catalog: 762 watches
+across 6 brands, real cart, real Stripe checkout, orders stored in Supabase.
 
 ## Stack
 
@@ -45,7 +45,7 @@ from Supabase directly, run:
 npm run seed
 ```
 
-This upserts all 346 products into the `products` table. You'd then swap
+This upserts all 762 products into the `products` table. You'd then swap
 `lib/products.ts` to query Supabase instead of the JSON file.
 
 ## 6. Run locally
@@ -66,6 +66,30 @@ Add the same environment variables from `.env.local` in the Vercel project
 settings, then re-run the webhook step above pointing at your production
 domain.
 
+## Scrape the source catalog
+
+The public WooCommerce catalog at `superclonewatches.com` can be captured into
+an isolated, git-ignored directory without changing the storefront catalog:
+
+```bash
+npm run scrape:superclone
+```
+
+This writes the original API records, normalized JSON, CSV, metadata, failures,
+and downloaded product images to `scrape-output/superclonewatches/`. The
+command is resumable: existing non-empty images are reused. Useful options are
+`-- --skip-images`, `-- --limit=10`, `-- --concurrency=4`, and
+`-- --force-images`.
+
+After reviewing the isolated scrape, import it into the storefront with:
+
+```bash
+npm run import:superclone
+```
+
+This converts the source records into `data/products.json`, writes the brand
+index, and copies referenced images into `public/superclone-products/`.
+
 ## Project structure
 
 ```
@@ -80,15 +104,12 @@ scripts/seed.ts       optional: push products.json into Supabase
 
 ## Notes
 
-- **Images** are currently pulled live from `royaluxurywatches.com` (the URLs
-  in your spreadsheet). If you don't control that domain long-term, download
-  the images and host them in Supabase Storage or `/public` instead —
-  update `next.config.js` `remotePatterns` accordingly.
+- **Images** are served locally from `public/superclone-products/`; the
+  storefront does not depend on the source site to render its catalog.
 - **Currency** is USD throughout; change in `lib/products.ts` `formatPrice`
   and the Stripe checkout route if you need multi-currency.
 - **Orders table** is locked down with RLS — all reads/writes happen via the
   service-role key inside `/api/checkout` and `/api/webhook`, never from the
   browser.
-- Catalog is organized under 9 in-house collection names (Ironclad, Marinier,
-  Skyline, Titanforge, Aurelian, Orbital, Cariste, Velocity, Aeroform) rather
-  than third-party brand names.
+- Catalog is organized under 6 source brands: Rolex, Audemars Piguet,
+  Richard Mille, Patek Philippe, Hublot, and Breitling.

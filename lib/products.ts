@@ -35,9 +35,14 @@ export function getAllBrands(): { name: string; slug: string; count: number }[] 
 }
 
 export function getRelatedProducts(product: Product, limit = 4): Product[] {
-  return products
-    .filter((p) => p.brand === product.brand && p.id !== product.id)
-    .slice(0, limit);
+  const related = products.filter(
+    (candidate) => candidate.brand === product.brand && candidate.id !== product.id
+  );
+
+  return [
+    ...related.filter((candidate) => candidate.images.length > 0),
+    ...related.filter((candidate) => candidate.images.length === 0),
+  ].slice(0, limit);
 }
 
 export function searchProducts(query: string): Product[] {
@@ -47,6 +52,7 @@ export function searchProducts(query: string): Product[] {
     (p) =>
       p.name.toLowerCase().includes(q) ||
       p.brand.toLowerCase().includes(q) ||
-      p.model.toLowerCase().includes(q)
+      p.model.toLowerCase().includes(q) ||
+      p.sku?.toLowerCase().includes(q)
   );
 }

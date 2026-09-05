@@ -4,7 +4,7 @@ import ShopGrid from "@/components/ShopGrid";
 
 export const metadata = {
   title: "Shop All Watches",
-  description: "Explore the complete Royal Luxury Watches collection.",
+  description: "Explore the complete HEYWATCHES collection.",
 };
 
 export default function ShopPage() {

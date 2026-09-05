@@ -4,7 +4,7 @@ import {
   getBrandNameFromSlug,
   getAllBrands,
 } from "@/lib/products-data";
-import ProductCard from "@/components/ProductCard";
+import BrandProductGrid from "@/components/BrandProductGrid";
 
 export function generateStaticParams() {
   return getAllBrands().map((b) => ({ slug: b.slug }));
@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   const name = getBrandNameFromSlug(params.slug);
   return {
     title: name || "Collection Not Found",
-    description: name ? `Explore the ${name} collection from Royal Luxury Watches.` : undefined,
+    description: name ? `Explore the ${name} collection from HEYWATCHES.` : undefined,
   };
 }
 
@@ -32,11 +32,7 @@ export default function BrandPage({ params }: { params: { slug: string } }) {
 
       <div className="rule my-10" />
 
-      <div className="grid grid-cols-1 gap-x-5 gap-y-11 min-[460px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
+      <BrandProductGrid products={products} />
     </div>
   );
 }

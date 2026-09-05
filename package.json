@@ -8,9 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
-    "stage:images": "tsx scripts/stage-images.ts",
-    "predev": "npm run stage:images",
-    "prebuild": "npm run stage:images"
+    "scrape:superclone": "node --no-warnings scripts/scrape-superclone.ts",
+    "import:superclone": "node --no-warnings scripts/import-superclone.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

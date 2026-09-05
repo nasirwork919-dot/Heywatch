@@ -7,34 +7,36 @@ import { getAllBrands, getAllProducts } from "@/lib/products-data";
 export default function Home() {
   const products = getAllProducts();
   const brands = getAllBrands();
-  const featured = products.slice(0, 8);
-  const heroProduct = products[0];
-  const heroSecondary = products[40] ?? products[1];
-  const heroTertiary = products[120] ?? products[2];
-  const editorialProduct = products[40] ?? products[8] ?? heroProduct;
+  const productsWithImages = products.filter((product) => product.images.length > 0);
+  const featured = productsWithImages.slice(0, 8);
+  const heroProduct = productsWithImages[0];
+  const heroSecondary = productsWithImages[40] ?? productsWithImages[1];
+  const heroTertiary = productsWithImages[120] ?? productsWithImages[2];
+  const editorialProduct = productsWithImages[40] ?? productsWithImages[8] ?? heroProduct;
+  const featuredBrand = brands.find((brand) => brand.name === heroProduct?.brand) ?? brands[0];
   const signatureEdits = [
     {
       label: "The daily icon",
       title: "Quiet confidence",
       copy: "Clean proportions and enduring finishes for every day.",
-      product: products[12] ?? heroProduct,
+      product: productsWithImages[12] ?? heroProduct,
     },
     {
       label: "After dark",
       title: "Evening distinction",
       copy: "A stronger silhouette for moments that call for presence.",
-      product: products[Math.floor(products.length / 2)] ?? heroSecondary,
+      product: productsWithImages[Math.floor(productsWithImages.length / 2)] ?? heroSecondary,
     },
     {
       label: "Modern sport",
       title: "Built for motion",
       copy: "Technical character balanced with a refined point of view.",
-      product: products[products.length - 18] ?? heroTertiary,
+      product: productsWithImages[productsWithImages.length - 18] ?? heroTertiary,
     },
   ];
   const collectionCards = brands.map((brand) => ({
     ...brand,
-    product: products.find((product) => product.brand === brand.name),
+    product: productsWithImages.find((product) => product.brand === brand.name),
   }));
 
   return (
@@ -67,7 +69,7 @@ export default function Home() {
               <Link href="/shop" className="inline-flex items-center gap-3 bg-gold px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.19em] text-obsidian shadow-lg transition-colors hover:bg-gold-light">
                 Shop all watches <ArrowRight size={14} />
               </Link>
-              <Link href="/brand/marinier" className="border border-white/60 bg-black/20 px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.19em] text-white backdrop-blur-sm transition-colors hover:border-gold hover:bg-black/35 hover:text-gold-light">
+              <Link href={`/brand/${featuredBrand?.slug ?? "rolex"}`} className="border border-white/60 bg-black/20 px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.19em] text-white backdrop-blur-sm transition-colors hover:border-gold hover:bg-black/35 hover:text-gold-light">
                 View featured collection
               </Link>
             </div>
@@ -101,7 +103,7 @@ export default function Home() {
           </div>
           <Link href="/shop" className="hidden items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.17em] text-bone/50 transition-colors hover:text-gold sm:flex">View all <ArrowRight size={13} /></Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {collectionCards.map(({ name, slug, count, product }) => (
             <Link key={slug} href={`/brand/${slug}`} className="group relative aspect-[4/5] overflow-hidden border border-line/70 bg-ink">
               {product && <ProductImage src={product.images[0] || ""} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw" className="object-cover opacity-75 transition duration-700 group-hover:scale-[1.035] group-hover:opacity-90" />}
@@ -164,7 +166,7 @@ export default function Home() {
           </div>
           <div className="luxury-panel flex items-center px-7 py-14 sm:px-12 lg:px-16">
             <div className="max-w-md">
-              <p className="eyebrow">The Royal promise</p>
+              <p className="eyebrow">The HEYWATCHES promise</p>
               <h2 className="mt-5 font-display text-4xl font-light leading-tight text-parchment sm:text-5xl">Considered in every detail.</h2>
               <p className="mt-7 text-sm leading-7 text-bone/55">Every timepiece is selected with an eye for proportion, finish, and character, then carefully inspected before it begins its journey to you.</p>
               <Link href={`/product/${editorialProduct.slug}`} className="mt-9 inline-flex items-center gap-3 border-b border-gold/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.19em] text-gold transition-colors hover:text-gold-light">Explore this reference <ArrowRight size={13} /></Link>
@@ -187,7 +189,7 @@ export default function Home() {
 
             <ol className="grid border-y border-line/80 sm:grid-cols-3 sm:border-y-0">
               {[
-                { number: "01", title: "Discover", copy: "Explore five distinct house collections." },
+                { number: "01", title: "Discover", copy: `Explore ${brands.length} distinct watch collections.` },
                 { number: "02", title: "Compare", copy: "Consider movement, finish, size, and strap." },
                 { number: "03", title: "Choose", copy: "Select the watch that fits your life." },
               ].map(({ number, title, copy }) => (

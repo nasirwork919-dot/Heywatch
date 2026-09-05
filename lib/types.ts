@@ -18,7 +18,11 @@ export interface Product {
   model: string;
   description: string;
   price: number;
+  compareAtPrice?: number;
   currency: string;
+  sku?: string;
+  sourceUrl?: string;
+  inStock?: boolean;
   spec: ProductSpec;
   images: string[];
 }

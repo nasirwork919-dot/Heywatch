@@ -3,9 +3,8 @@
 // load. These are generic, representative watch photos — not photos of the
 // specific referenced models.
 // Every candidate below was visually inspected to confirm it does not show
-// legible branding for any of the 9 brands actually listed in this catalog
-// (Rolex, Omega, Hublot, Audemars Piguet, TAG Heuer, Patek Philippe, Cartier,
-// Breitling, Richard Mille) — several otherwise-generic-looking stock photos
+// legible branding for any of the brands listed in this catalog. Several
+// otherwise-generic-looking stock photos
 // were dropped for exactly that reason (visible ROLEX/BREITLING dial text).
 import { stableHash } from "./hash";
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllBrands } from "@/lib/products";
 
 export default function Footer() {
@@ -9,11 +10,17 @@ export default function Footer() {
       <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <span className="font-display text-3xl font-light text-parchment">
-              Royal<span className="italic text-gold">.</span>
-            </span>
+            <Link href="/" aria-label="HEYWATCHES home" className="inline-block">
+              <Image
+                src="/heywatches-logo.jpeg"
+                alt="HEYWATCHES — Time. Style. Status."
+                width={160}
+                height={160}
+                className="h-36 w-36 object-contain sm:h-40 sm:w-40"
+              />
+            </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-bone/60">
-              A curated house of fine in-house timepieces. Every watch is
+              A curated destination for distinctive luxury timepieces. Every watch is
               inspected and shipped with a two-year international warranty.
             </p>
           </div>
@@ -61,7 +68,7 @@ export default function Footer() {
               The House
             </h4>
             <p className="mb-5 text-sm leading-relaxed text-bone/60">
-              Discover the complete world of Royal and find the reference that feels entirely your own.
+              Discover the complete world of HEYWATCHES and find the reference that feels entirely your own.
             </p>
             <Link href="/shop" className="inline-block border-b border-gold/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold transition-colors hover:text-gold-light">Explore all timepieces</Link>
           </div>
@@ -70,7 +77,7 @@ export default function Footer() {
         <div className="rule my-10" />
 
         <div className="flex flex-col items-center justify-between gap-4 text-xs text-bone/40 md:flex-row">
-          <span>© {new Date().getFullYear()} Royal Luxury Watches. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} HEYWATCHES. All rights reserved.</span>
           <span>Crafted with precision.</span>
         </div>
       </div>

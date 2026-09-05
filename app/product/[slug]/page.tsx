@@ -62,14 +62,19 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             </div>
             <h1 className="mt-5 font-display text-3xl font-light leading-[1.12] text-parchment sm:text-4xl lg:text-[2.75rem]">{product.name}</h1>
             <p className="mt-4 text-[10px] uppercase tracking-[0.17em] text-bone/35">
-              Curated collection · {product.spec.Mechanism || "Fine watchmaking"}
+              {product.sku ? `Reference · ${product.sku}` : "Curated collection"}
             </p>
 
             <div className="luxury-panel mt-8 p-6 sm:p-7">
               <div className="flex items-end justify-between gap-4 border-b border-line/70 pb-5">
                 <div>
                   <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-bone/40">Price</p>
-                  <p className="mt-2 font-display text-3xl font-light text-parchment">{formatPrice(product.price, product.currency)}</p>
+                  <div className="mt-2 flex flex-wrap items-baseline gap-3">
+                    <p className="font-display text-3xl font-light text-parchment">{formatPrice(product.price, product.currency)}</p>
+                    {product.compareAtPrice && (
+                      <p className="text-sm text-bone/35 line-through">{formatPrice(product.compareAtPrice, product.currency)}</p>
+                    )}
+                  </div>
                 </div>
                 <p className="pb-1 text-[9px] uppercase tracking-[0.14em] text-bone/35">{product.currency}</p>
               </div>

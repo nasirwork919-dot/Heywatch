@@ -17,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <article
-      className="group relative flex min-w-0 flex-col"
+      className="group relative flex min-w-0 flex-col [contain-intrinsic-size:0_500px] [content-visibility:auto]"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onFocusCapture={() => setHover(true)}
@@ -46,12 +46,15 @@ export default function ProductCard({ product }: { product: Product }) {
           </p>
           <Link href={`/product/${product.slug}`}>
             <h3 className="mt-1.5 line-clamp-2 text-[13px] font-medium leading-relaxed text-parchment transition-colors hover:text-gold-light sm:text-sm">
-              {product.model || product.name}
+              {product.name}
             </h3>
           </Link>
-          <p className="mt-2.5 text-sm font-medium text-bone/85">
-            {formatPrice(product.price, product.currency)}
-          </p>
+          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-sm font-medium">
+            <span className="text-bone/85">{formatPrice(product.price, product.currency)}</span>
+            {product.compareAtPrice && (
+              <span className="text-xs text-bone/35 line-through">{formatPrice(product.compareAtPrice, product.currency)}</span>
+            )}
+          </div>
         </div>
 
         <button

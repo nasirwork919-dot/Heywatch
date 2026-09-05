@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "@/store/cart";
@@ -30,14 +31,19 @@ export default function Header({
       <div className="border-b border-line/60 bg-charcoal/70 px-6 py-2 text-center text-[9px] font-medium uppercase tracking-[0.24em] text-bone/55">
         Inspected timepieces · Insured worldwide delivery · Two-year warranty
       </div>
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-        <Link href="/" className="group flex items-center gap-3 leading-none" aria-label="Royal Luxury Watches home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 font-display text-sm italic text-gold transition-colors group-hover:border-gold">
-            R
-          </span>
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-2 sm:px-8 lg:px-12">
+        <Link href="/" className="group flex shrink-0 items-center gap-2.5 leading-none" aria-label="HEYWATCHES home">
+          <Image
+            src="/heywatches-logo.jpeg"
+            alt=""
+            width={64}
+            height={64}
+            priority
+            className="h-14 w-14 object-contain sm:h-16 sm:w-16"
+          />
           <span className="flex flex-col">
-            <span className="font-display text-xl tracking-wide text-parchment transition-colors group-hover:text-gold-light">Royal</span>
-            <span className="mt-1 text-[8px] uppercase tracking-[0.28em] text-bone/50">Luxury Watches</span>
+            <span className="font-display text-lg tracking-[0.08em] text-parchment transition-colors group-hover:text-gold-light sm:text-xl">HEYWATCHES</span>
+            <span className="mt-1 text-[7px] uppercase tracking-[0.25em] text-gold/65 sm:text-[8px]">Time · Style · Status</span>
           </span>
         </Link>
 

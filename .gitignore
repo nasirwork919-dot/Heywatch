@@ -20,6 +20,8 @@ npm-debug.log*
 
 # raw scraped source data - not for distribution
 /scraped-products
+/scraped-products.zip
+/scrape-output
 
 # typescript
 *.tsbuildinfo

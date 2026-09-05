@@ -2,7 +2,7 @@
 import path from "node:path";
 import type { ScrapeSetEntry, ScrapeManifest } from "../lib/scrape-types";
 
-const ROOT = path.join(__dirname, "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const SCRAPED_ROOT = path.join(ROOT, "scraped-products");
 const PUBLIC_ROOT = path.join(ROOT, "public", "scrape-products");
 const MANIFEST_PATH = path.join(ROOT, "data", "scrape-manifest.json");

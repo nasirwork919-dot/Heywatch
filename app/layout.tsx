@@ -21,11 +21,14 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Royal Luxury Watches | Fine Timepieces",
-    template: "%s | Royal Luxury Watches",
+    default: "HEYWATCHES | Time. Style. Status.",
+    template: "%s | HEYWATCHES",
   },
   description:
-    "A curated house of fine timepieces across our in-house collections. Inspected craftsmanship, delivered worldwide.",
+    "Explore distinctive luxury timepieces from Rolex, Audemars Piguet, Richard Mille, Patek Philippe, Hublot, and Breitling.",
+  icons: {
+    icon: "/heywatches-logo.jpeg",
+  },
 };
 
 export default function RootLayout({

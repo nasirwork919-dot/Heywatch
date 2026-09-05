@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getServiceSupabase } from "@/lib/supabase";
+import { getAllProducts } from "@/lib/products-data";
 import type { OrderInput } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -15,7 +16,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing customer details" }, { status: 400 });
     }
 
-    const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const catalogById = new Map(getAllProducts().map((product) => [product.id, product]));
+    const verifiedItems = [];
+
+    for (const item of items) {
+      const product = catalogById.get(item.productId);
+      if (!product || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 10) {
+        return NextResponse.json({ error: "Cart contains an invalid item" }, { status: 400 });
+      }
+
+      verifiedItems.push({
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        image: product.images[0] || "",
+        quantity: item.quantity,
+      });
+    }
+
+    const subtotal = verifiedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const currency = "usd";
 
     // 1. Create a pending order in Supabase first so we have a stable
@@ -42,13 +62,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Could not create order" }, { status: 500 });
     }
 
-    const orderItemRows = items.map((i) => ({
+    const orderItemRows = verifiedItems.map((item) => ({
       order_id: order.id,
-      product_id: i.productId,
-      product_name: i.name,
-      brand: i.brand,
-      unit_price: i.price,
-      quantity: i.quantity,
+      product_id: item.productId,
+      product_name: item.name,
+      brand: item.brand,
+      unit_price: item.price,
+      quantity: item.quantity,
     }));
     const { error: itemsErr } = await db.from("order_items").insert(orderItemRows);
     if (itemsErr) {
@@ -57,21 +77,21 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Create the Stripe Checkout session.
-    const origin = req.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || "";
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       customer_email: customer.email,
-      line_items: items.map((i) => ({
+      line_items: verifiedItems.map((item) => ({
         price_data: {
           currency,
           product_data: {
-            name: i.name,
-            images: i.image ? [i.image] : undefined,
+            name: item.name,
+            images: item.image ? [new URL(item.image, origin).toString()] : undefined,
           },
-          unit_amount: Math.round(i.price * 100),
+          unit_amount: Math.round(item.price * 100),
         },
-        quantity: i.quantity,
+        quantity: item.quantity,
       })),
       metadata: { order_id: order.id },
       success_url: `${origin}/checkout/success?order_id=${order.id}`,

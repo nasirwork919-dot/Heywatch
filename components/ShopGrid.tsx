@@ -22,15 +22,10 @@ export default function ShopGrid({
   const [sort, setSort] = useState<SortKey>("featured");
   const [query, setQuery] = useState(initialQuery);
   const [maxPrice, setMaxPrice] = useState<number>(catalogMaxPrice);
-  const [visibleCount, setVisibleCount] = useState(24);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
   }, [searchParams]);
-
-  useEffect(() => {
-    setVisibleCount(24);
-  }, [activeBrand, query, sort, maxPrice]);
 
   const filtered = useMemo(() => {
     let list = products;
@@ -43,7 +38,8 @@ export default function ShopGrid({
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.brand.toLowerCase().includes(q) ||
-          p.model.toLowerCase().includes(q)
+          p.model.toLowerCase().includes(q) ||
+          p.sku?.toLowerCase().includes(q)
       );
     }
     list = list.filter((p) => p.price <= maxPrice);
@@ -120,7 +116,7 @@ export default function ShopGrid({
 
         <div>
           <div className="mb-7 flex items-center justify-between gap-4">
-            <p className="text-xs uppercase tracking-[0.15em] text-bone/40">Showing {Math.min(visibleCount, filtered.length)} of {filtered.length}</p>
+            <p className="text-xs uppercase tracking-[0.15em] text-bone/40">Showing all {filtered.length} timepieces</p>
             <label htmlFor="catalog-sort" className="sr-only">Sort products</label>
             <select
               id="catalog-sort"
@@ -140,23 +136,11 @@ export default function ShopGrid({
               No watches match your filters.
             </p>
           ) : (
-            <>
             <div className="grid grid-cols-1 gap-x-5 gap-y-10 min-[460px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filtered.slice(0, visibleCount).map((p) => (
+              {filtered.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
-            {visibleCount < filtered.length && (
-              <div className="mt-14 text-center">
-                <button
-                  onClick={() => setVisibleCount((count) => count + 24)}
-                  className="border border-gold/50 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold hover:text-obsidian"
-                >
-                  Load more timepieces
-                </button>
-              </div>
-            )}
-            </>
           )}
         </div>
     </div>
