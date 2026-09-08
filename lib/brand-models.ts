@@ -22,18 +22,34 @@ export type BrandModel = {
 const brandModels = rawBrandModels as BrandModelIndex;
 
 const modelDescriptions: Record<string, string> = {
-  "air-king": "Aviation-inspired tool watches with bold, highly legible dials.",
-  cellini: "Refined dress watches shaped by classic proportions and quiet detail.",
-  datejust: "The iconic calendar watch, offered across sizes, metals, bezels, and dials.",
-  "day-date": "Prestige references pairing day-and-date displays with President styling.",
-  daytona: "Racing chronographs with instantly recognisable bezels and dial layouts.",
-  explorer: "Purpose-built expedition watches with clean, highly legible displays.",
-  "gmt-master": "Travel watches with dual-time functionality and signature bezel colours.",
-  milgauss: "Anti-magnetic sports watches distinguished by vivid crystal and hand details.",
-  "sea-dweller": "Professional deep-sea watches built around substantial diving proportions.",
-  "sky-dweller": "Annual-calendar travel watches combining dual time with refined presence.",
-  submariner: "The definitive dive-watch silhouette in classic and contemporary configurations.",
-  "yacht-master": "Sport-luxury sailing watches balancing technical bezels with polished finishes.",
+  "rolex:air-king": "Aviation-inspired tool watches with bold, highly legible dials.",
+  "rolex:cellini": "Refined dress watches shaped by classic proportions and quiet detail.",
+  "rolex:datejust": "The iconic calendar watch, offered across sizes, metals, bezels, and dials.",
+  "rolex:day-date": "Prestige references pairing day-and-date displays with President styling.",
+  "rolex:daytona": "Racing chronographs with instantly recognisable bezels and dial layouts.",
+  "rolex:explorer": "Purpose-built expedition watches with clean, highly legible displays.",
+  "rolex:gmt-master": "Travel watches with dual-time functionality and signature bezel colours.",
+  "rolex:milgauss": "Anti-magnetic sports watches distinguished by vivid crystal and hand details.",
+  "rolex:sea-dweller": "Professional deep-sea watches built around substantial diving proportions.",
+  "rolex:sky-dweller": "Annual-calendar travel watches combining dual time with refined presence.",
+  "rolex:submariner": "The definitive dive-watch silhouette in classic and contemporary configurations.",
+  "rolex:yacht-master": "Sport-luxury sailing watches balancing technical bezels with polished finishes.",
+  "audemars-piguet:royal-oak": "The signature octagonal sports-watch design in an array of metals and dials.",
+  "audemars-piguet:royal-oak-offshore": "Bold Royal Oak references with substantial cases and sporty detailing.",
+  "audemars-piguet:royal-oak-tourbillon": "Complication-led Royal Oak designs showcasing openworked and tourbillon movements.",
+  "richard-mille:rm-011": "Technical tonneau chronographs shaped by motorsport-inspired engineering.",
+  "richard-mille:rm-035": "Lightweight sports watches pairing skeletonised displays with athletic character.",
+  "richard-mille:rm-055": "Distinctive skeleton watches recognised for architectural cases and open dials.",
+  "richard-mille:rm-53": "Impact-resistant tourbillon designs created around high-performance sport.",
+  "richard-mille:rm-59": "An expressive tourbillon collection with a vivid, highly sculptural display.",
+  "richard-mille:rm-68": "Graffiti-inspired tourbillon watches where movement architecture becomes art.",
+  "richard-mille:rm-70": "Cycling-inspired tonneau watches with a distinctive mechanical counter display.",
+  "patek-philippe:nautilus": "Iconic porthole-shaped sports watches balancing refined finishing with everyday presence.",
+  "patek-philippe:aquanaut": "Contemporary rounded-octagonal sports watches with signature embossed dials.",
+  "hublot:big-bang": "Layered, contemporary sports watches with bold cases and expressive materials.",
+  "hublot:classic-fusion": "A cleaner, more restrained take on Hublot's modern fusion design language.",
+  "breitling:avenger": "Rugged aviation watches engineered for clarity, durability, and confident wrist presence.",
+  "breitling:navitimer": "Pilot chronographs defined by intricate slide-rule bezels and aviation heritage.",
 };
 
 function normalize(value: string): string {
@@ -58,7 +74,8 @@ export function getBrandModels(brandSlug: string): BrandModel[] {
       slug: model.slug,
       count: products.length,
       image: representative?.images[0] ?? "",
-      description: modelDescriptions[model.slug] ?? `Explore the ${model.name} collection.`,
+      description:
+        modelDescriptions[`${brandSlug}:${model.slug}`] ?? `Explore the ${model.name} collection.`,
     };
   });
 }
