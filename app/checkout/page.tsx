@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, Copy, ShieldCheck, TriangleAlert } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { cryptoPaymentOptions, type CryptoPaymentId } from "@/lib/crypto-payments";
+import { createCartSignature } from "@/lib/checkout";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/store/cart";
 import type { CartLine } from "@/lib/types";
@@ -15,6 +16,8 @@ type PaymentOrder = {
   orderReference: string;
   subtotal: number;
   currency: string;
+  items: CartLine[];
+  cartSignature: string;
   payment: {
     id: CryptoPaymentId;
     asset: string;
@@ -35,7 +38,7 @@ const initialForm = {
 const pendingCheckoutKey = "heywatches-pending-crypto-order-v1";
 
 export default function CheckoutPage() {
-  const { items, totalPrice } = useCart();
+  const { items, totalPrice, hasHydrated } = useCart();
   const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [paymentOptionId, setPaymentOptionId] = useState<CryptoPaymentId>("usdc-sol");
@@ -44,23 +47,35 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const cartSignature = useMemo(() => createCartSignature(items), [items]);
 
   const activePaymentId = order?.payment.id ?? paymentOptionId;
   const selectedOption = cryptoPaymentOptions.find((option) => option.id === activePaymentId)!;
 
   useEffect(() => {
+    if (!hasHydrated) return;
     try {
       const saved = window.sessionStorage.getItem(pendingCheckoutKey);
       if (!saved) return;
       const pending = JSON.parse(saved) as { order: PaymentOrder; email: string };
-      if (!pending.order?.orderId || !pending.email) return;
+      if (
+        !pending.order?.orderId ||
+        !pending.order?.items?.length ||
+        !pending.order?.cartSignature ||
+        !pending.email ||
+        pending.order.cartSignature !== cartSignature
+      ) {
+        window.sessionStorage.removeItem(pendingCheckoutKey);
+        setOrder(null);
+        return;
+      }
       setOrder(pending.order);
       setPaymentOptionId(pending.order.payment.id);
       setForm((current) => ({ ...current, email: pending.email }));
     } catch {
       window.sessionStorage.removeItem(pendingCheckoutKey);
     }
-  }, []);
+  }, [cartSignature, hasHydrated]);
 
   function update(key: keyof typeof form, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -124,6 +139,34 @@ export default function CheckoutPage() {
     window.setTimeout(() => setCopied(false), 1800);
   }
 
+  async function restartCheckout() {
+    if (!order) return;
+    const pendingOrder = order;
+    window.sessionStorage.removeItem(pendingCheckoutKey);
+    setOrder(null);
+    setTransactionHash("");
+    setError("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    try {
+      await fetch("/api/checkout", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId: pendingOrder.orderId, email: form.email }),
+      });
+    } catch {
+      // The customer must still be able to restart checkout if cleanup fails.
+    }
+  }
+
+  if (!hasHydrated) {
+    return (
+      <main className="mx-auto min-h-[55vh] max-w-6xl px-5 py-32 text-center text-sm text-bone/50">
+        Loading your bag…
+      </main>
+    );
+  }
+
   if (items.length === 0 && !order) {
     return (
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
@@ -163,6 +206,7 @@ export default function CheckoutPage() {
             submitTransaction={submitTransaction}
             loading={loading}
             error={error}
+            restartCheckout={restartCheckout}
           />
         ) : (
           <form onSubmit={createOrder} className="space-y-10">
@@ -240,7 +284,11 @@ export default function CheckoutPage() {
           </form>
         )}
 
-        <OrderSummary items={items} total={order?.subtotal ?? totalPrice()} reference={order?.orderReference} />
+        <OrderSummary
+          items={order?.items ?? items}
+          total={order?.subtotal ?? totalPrice()}
+          reference={order?.orderReference}
+        />
       </div>
     </main>
   );
@@ -256,6 +304,7 @@ function CryptoPaymentStep({
   submitTransaction,
   loading,
   error,
+  restartCheckout,
 }: {
   order: PaymentOrder;
   option: (typeof cryptoPaymentOptions)[number];
@@ -266,6 +315,7 @@ function CryptoPaymentStep({
   submitTransaction: (event: React.FormEvent) => void;
   loading: boolean;
   error: string;
+  restartCheckout: () => void;
 }) {
   return (
     <form onSubmit={submitTransaction} className="space-y-6">
@@ -280,6 +330,14 @@ function CryptoPaymentStep({
               Awaiting transfer
             </span>
           </div>
+          <button
+            type="button"
+            onClick={restartCheckout}
+            disabled={loading}
+            className="mt-4 text-[10px] font-semibold uppercase tracking-[0.16em] text-bone/55 underline decoration-gold/40 underline-offset-4 transition-colors hover:text-gold disabled:cursor-wait disabled:opacity-50"
+          >
+            Change order or payment currency
+          </button>
         </div>
 
         <div className="grid gap-8 p-6 sm:p-8 md:grid-cols-[210px_minmax(0,1fr)]">

@@ -7,6 +7,7 @@ import type { CartLine } from "@/lib/types";
 interface CartState {
   items: CartLine[];
   isOpen: boolean;
+  hasHydrated: boolean;
   addItem: (item: Omit<CartLine, "quantity">, qty?: number) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, qty: number) => void;
@@ -15,6 +16,7 @@ interface CartState {
   closeCart: () => void;
   totalItems: () => number;
   totalPrice: () => number;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 export const useCart = create<CartState>()(
@@ -22,6 +24,7 @@ export const useCart = create<CartState>()(
     (set, get) => ({
       items: [],
       isOpen: false,
+      hasHydrated: false,
       addItem: (item, qty = 1) => {
         set((state) => {
           const existing = state.items.find((i) => i.productId === item.productId);
@@ -56,7 +59,12 @@ export const useCart = create<CartState>()(
       closeCart: () => set({ isOpen: false }),
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
       totalPrice: () => get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
-    { name: "rlw-cart" }
+    {
+      name: "rlw-cart",
+      partialize: (state) => ({ items: state.items }),
+      skipHydration: true,
+    }
   )
 );

@@ -21,6 +21,33 @@ export async function POST(req: NextRequest) {
     const db = getServiceSupabase();
     const legacyPaymentReference = `crypto:${payment.id}:${transactionHash}`;
 
+    const { data: pendingOrder, error: lookupError } = await db
+      .from("orders")
+      .select("id, stripe_session_id")
+      .eq("id", orderId)
+      .ilike("customer_email", email)
+      .eq("status", "payment_pending")
+      .maybeSingle();
+
+    if (lookupError) {
+      console.error(lookupError);
+      return NextResponse.json({ error: "Could not verify the pending order" }, { status: 500 });
+    }
+    if (!pendingOrder) {
+      return NextResponse.json(
+        { error: "Order not found, already submitted, or email does not match" },
+        { status: 404 }
+      );
+    }
+
+    const pendingReference = pendingOrder.stripe_session_id as string | null;
+    if (pendingReference?.startsWith("crypto_pending:") && !pendingReference.startsWith(`crypto_pending:${payment.id}:`)) {
+      return NextResponse.json(
+        { error: "The selected currency does not match this order" },
+        { status: 409 }
+      );
+    }
+
     // stripe_session_id is retained as a backwards-compatible external-payment
     // reference for databases that have not yet applied the crypto migration.
     // It is unique, preventing the same transaction from being submitted twice.
@@ -31,7 +58,6 @@ export async function POST(req: NextRequest) {
         status: "payment_submitted",
       })
       .eq("id", orderId)
-      .ilike("customer_email", email)
       .eq("status", "payment_pending")
       .select("id")
       .maybeSingle();
@@ -45,7 +71,7 @@ export async function POST(req: NextRequest) {
     }
     if (!order) {
       return NextResponse.json(
-        { error: "Order not found, already submitted, or email does not match" },
+        { error: "Order has already been submitted" },
         { status: 404 }
       );
     }

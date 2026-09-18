@@ -14,9 +14,10 @@ export default function Header({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const { totalItems, openCart } = useCart();
+  const { totalItems, openCart, hasHydrated } = useCart();
   const router = useRouter();
   const navBrands = brands.slice(0, 4);
+  const cartItemCount = hasHydrated ? totalItems() : 0;
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -85,9 +86,9 @@ export default function Header({
             className="relative flex h-9 w-9 items-center justify-center rounded-full border border-line text-bone/75 transition-colors hover:border-gold/60 hover:text-gold"
           >
             <ShoppingBag size={20} />
-            {totalItems() > 0 && (
+            {cartItemCount > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-semibold text-obsidian">
-                {totalItems()}
+                {cartItemCount}
               </span>
             )}
           </button>

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import CookieConsent from "@/components/CookieConsent";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import CartHydration from "@/components/CartHydration";
 import { getAllBrands } from "@/lib/products-data";
 
 const fraunces = Fraunces({
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
       <body className="bg-obsidian text-parchment font-body antialiased">
+        <CartHydration />
         <Header brands={brands} />
         {children}
         <Footer />
