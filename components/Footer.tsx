@@ -65,11 +65,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="mailto:Info@heywatches.com" className="hover:text-gold transition-colors">
-                  Info@heywatches.com
-                </a>
-              </li>
-              <li>
                 <Link href="/privacy-policy" className="hover:text-gold transition-colors">
                   Privacy Policy
                 </Link>
@@ -90,6 +85,17 @@ export default function Footer() {
               Discover the complete world of HEYWATCHES and find the reference that feels entirely your own.
             </p>
             <Link href="/shop" className="inline-block border-b border-gold/60 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold transition-colors hover:text-gold-light">Explore all timepieces</Link>
+            <div className="mt-7">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold">
+                Contact Information
+              </p>
+              <a
+                href="mailto:Info@heywatches.com"
+                className="mt-2 inline-block text-sm text-bone/70 transition-colors hover:text-gold"
+              >
+                Info@heywatches.com
+              </a>
+            </div>
           </div>
         </div>
 
