@@ -1,19 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
 import { getServiceSupabase } from "@/lib/supabase";
 import { getAllProducts } from "@/lib/products-data";
+import { getCryptoPaymentOption } from "@/lib/crypto-payments";
 import type { OrderInput } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
   try {
     const body: OrderInput = await req.json();
-    const { items, customer } = body;
+    const { items, customer, paymentOptionId } = body;
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
     if (!customer?.email || !customer?.name || !customer?.address) {
       return NextResponse.json({ error: "Missing customer details" }, { status: 400 });
+    }
+    const paymentOption = getCryptoPaymentOption(paymentOptionId);
+    if (!paymentOption) {
+      return NextResponse.json({ error: "Choose a valid payment option" }, { status: 400 });
     }
 
     const catalogById = new Map(getAllProducts().map((product) => [product.id, product]));
@@ -38,8 +42,8 @@ export async function POST(req: NextRequest) {
     const subtotal = verifiedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const currency = "usd";
 
-    // 1. Create a pending order in Supabase first so we have a stable
-    //    order id to reconcile against once Stripe confirms payment.
+    // Create the order before revealing the payment step so each transfer has
+    // a stable order reference for manual blockchain verification.
     const db = getServiceSupabase();
     const { data: order, error: orderErr } = await db
       .from("orders")
@@ -52,7 +56,7 @@ export async function POST(req: NextRequest) {
         shipping_country: customer.country,
         currency,
         subtotal,
-        status: "pending",
+        status: "payment_pending",
       })
       .select()
       .single();
@@ -76,32 +80,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Could not save order items" }, { status: 500 });
     }
 
-    // 2. Create the Stripe Checkout session.
-    const origin = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
-      customer_email: customer.email,
-      line_items: verifiedItems.map((item) => ({
-        price_data: {
-          currency,
-          product_data: {
-            name: item.name,
-            images: item.image ? [new URL(item.image, origin).toString()] : undefined,
-          },
-          unit_amount: Math.round(item.price * 100),
-        },
-        quantity: item.quantity,
-      })),
-      metadata: { order_id: order.id },
-      success_url: `${origin}/checkout/success?order_id=${order.id}`,
-      cancel_url: `${origin}/checkout`,
+    return NextResponse.json({
+      orderId: order.id,
+      orderReference: order.id.slice(0, 8).toUpperCase(),
+      subtotal,
+      currency: currency.toUpperCase(),
+      payment: {
+        id: paymentOption.id,
+        asset: paymentOption.asset,
+        network: paymentOption.network,
+        address: paymentOption.address,
+      },
     });
-
-    // 3. Store the Stripe session id against the order for webhook reconciliation.
-    await db.from("orders").update({ stripe_session_id: session.id }).eq("id", order.id);
-
-    return NextResponse.json({ url: session.url });
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({ error: err.message || "Checkout failed" }, { status: 500 });

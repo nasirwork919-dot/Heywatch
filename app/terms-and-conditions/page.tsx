@@ -71,9 +71,18 @@ export default function TermsAndConditionsPage() {
                 included. Your cart or checkout submission is an offer to purchase, not our acceptance.
               </p>
               <p>
-                Payment is processed by Stripe. An order becomes accepted only when payment is
-                authorised and we confirm acceptance or dispatch. We may cancel and refund an
-                order if a product is unavailable, incorrectly priced, prohibited, or suspected of fraud.
+                Payment is made directly in one of the crypto assets and blockchain networks shown
+                at checkout. You are responsible for using the exact destination address, asset,
+                and network displayed for your order. Blockchain transfers are irreversible, and
+                funds sent using an unsupported asset, address, or network may be permanently lost.
+              </p>
+              <p>
+                The USD total is the order's reference value. Where checkout instructs you to send
+                the USD equivalent in a crypto asset, conversion rates and network fees shown by
+                your wallet or exchange may vary. The order is not paid or accepted merely because
+                a transaction hash was submitted; it remains pending until we verify the correct
+                transfer on-chain and confirm acceptance. We may cancel and refund an order if a
+                product is unavailable, incorrectly priced, prohibited, or suspected of fraud.
               </p>
             </>
           ),

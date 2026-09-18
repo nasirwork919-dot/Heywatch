@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
               <ul>
                 <li>Your name, email address, phone number, and delivery address.</li>
                 <li>Order details, including products, quantities, prices, and order status.</li>
-                <li>Payment and transaction information handled through Stripe. We do not receive or store your full card number.</li>
+                <li>Crypto-payment details, including the selected asset, blockchain network, destination wallet address, and transaction hash.</li>
                 <li>Technical information needed to operate and secure the site, such as IP address, browser type, device information, and server logs.</li>
                 <li>Your shopping-bag contents, stored locally in your browser so they remain available between visits.</li>
               </ul>
@@ -59,10 +59,9 @@ export default function PrivacyPolicyPage() {
           content: (
             <>
               <p>
-                We use <a href="https://stripe.com/privacy" target="_blank" rel="noreferrer">Stripe</a> to
-                process payments, Supabase to store order records, and Vercel to host and deliver
-                the website. These providers may process information in other countries under
-                their own security and privacy safeguards.
+                We use Supabase to store order and transaction-reference records and Vercel to
+                host and deliver the website. Blockchain transactions are also recorded on the
+                relevant public network and may be permanently visible to anyone.
               </p>
               <p>
                 We may also disclose information to delivery providers, professional advisers,
@@ -77,10 +76,9 @@ export default function PrivacyPolicyPage() {
           title: "Cookies and browser storage",
           content: (
             <p>
-              The website uses essential browser storage to remember your shopping bag. Stripe
-              may use cookies or similar technologies on its hosted checkout for payment,
-              security, fraud prevention, and service operation. Clearing your browser storage
-              may remove saved bag contents. We do not currently use advertising cookies on this site.
+              The website uses essential browser storage to remember your shopping bag. Clearing
+              your browser storage may remove saved bag contents. We do not currently use
+              advertising cookies on this site.
             </p>
           ),
         },
@@ -95,7 +93,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <p>
                 We use reasonable administrative and technical safeguards, but no online system
-                can be guaranteed completely secure. Payment card details are entered directly in Stripe's checkout.
+                can be guaranteed completely secure. We do not request or store wallet private
+                keys or recovery phrases. Never share either one with us or anyone claiming to represent us.
               </p>
             </>
           ),

@@ -1,115 +1,62 @@
 # HEYWATCHES
 
-A full e-commerce storefront built from your product catalog: 762 watches
-across 6 brands, real cart, real Stripe checkout, orders stored in Supabase.
+A Next.js storefront for 762 watches across six brands, with a persistent cart,
+direct crypto checkout, and private order storage in Supabase.
 
 ## Stack
 
-- Next.js 14 (App Router) + TypeScript + Tailwind
-- Zustand for cart state (persisted to localStorage)
-- Supabase (orders + optional product mirror)
-- Stripe Checkout for payments
+- Next.js 14 App Router, TypeScript, and Tailwind CSS
+- Zustand for the browser-persisted cart
+- Supabase for orders and the optional product mirror
+- Direct USDC, ETH, BTC, and BNB payment submission
+- Locally generated wallet QR codes
 
-## 1. Install
+## Local setup
 
-```bash
-npm install
-```
+1. Install packages with npm install.
+2. Create a Supabase project.
+3. Run supabase/schema.sql in its SQL editor.
+4. Copy .env.example to .env.local and add the Supabase credentials.
+5. Start the app with npm run dev.
+6. Visit http://localhost:3000.
 
-## 2. Set up Supabase
+For an existing database created before crypto checkout, run
+supabase/crypto-checkout-migration.sql once. Checkout remains compatible before
+migration by storing the asset, network, and transaction hash in the legacy
+external-payment-reference column.
 
-1. Create a project at supabase.com (free tier is fine to start).
-2. Open the SQL editor and run everything in `supabase/schema.sql`.
-3. Project Settings → API → copy the URL, anon key, and service role key.
+## Crypto checkout
 
-## 3. Set up Stripe
+Supported assets, required networks, public wallet addresses, and
+transaction-hash validation rules live in lib/crypto-payments.ts.
 
-1. Create a Stripe account (or use your existing one).
-2. Developers → API keys → copy the secret key.
-3. Developers → Webhooks → Add endpoint → `https://your-domain.com/api/webhook`,
-   listening for `checkout.session.completed` and `checkout.session.expired`.
-   Copy the signing secret.
-4. For local testing: `stripe listen --forward-to localhost:3000/api/webhook`
+Checkout creates a payment_pending order before displaying its wallet
+destination. After transfer, the customer submits the blockchain transaction
+hash. The order then becomes payment_submitted; it must still be manually
+verified on-chain before being marked paid.
 
-## 4. Environment variables
+Never add wallet private keys or recovery phrases to this repository or to
+Vercel environment variables.
 
-Copy `.env.example` to `.env.local` and fill in the values from steps 2–3.
+## Product catalog
 
-## 5. (Optional) Seed Supabase with the product catalog
+The storefront reads data/products.json at build time. To capture the public
+source catalog in a git-ignored directory, run npm run scrape:superclone.
 
-The storefront reads products straight from `data/products.json` at build
-time — no seeding required to launch. If you'd rather manage stock/pricing
-from Supabase directly, run:
+After reviewing the scrape, import it with npm run import:superclone. Product
+images are served locally from public/superclone-products.
 
-```bash
-npm run seed
-```
+## Verification and deployment
 
-This upserts all 762 products into the `products` table. You'd then swap
-`lib/products.ts` to query Supabase instead of the JSON file.
+Build with npm run build and serve locally with npm run start. Deploy through
+the linked Vercel project and configure the same Supabase variables from
+.env.local in the Vercel project settings.
 
-## 6. Run locally
+## Key directories
 
-```bash
-npm run dev
-```
-
-Visit http://localhost:3000
-
-## 7. Deploy to Vercel
-
-```bash
-npx vercel
-```
-
-Add the same environment variables from `.env.local` in the Vercel project
-settings, then re-run the webhook step above pointing at your production
-domain.
-
-## Scrape the source catalog
-
-The public WooCommerce catalog at `superclonewatches.com` can be captured into
-an isolated, git-ignored directory without changing the storefront catalog:
-
-```bash
-npm run scrape:superclone
-```
-
-This writes the original API records, normalized JSON, CSV, metadata, failures,
-and downloaded product images to `scrape-output/superclonewatches/`. The
-command is resumable: existing non-empty images are reused. Useful options are
-`-- --skip-images`, `-- --limit=10`, `-- --concurrency=4`, and
-`-- --force-images`.
-
-After reviewing the isolated scrape, import it into the storefront with:
-
-```bash
-npm run import:superclone
-```
-
-This converts the source records into `data/products.json`, writes the brand
-index, and copies referenced images into `public/superclone-products/`.
-
-## Project structure
-
-```
-app/                 routes (home, /shop, /product/[slug], /brand/[slug], /cart, /checkout, /api/*)
-components/          UI components
-lib/                 product data access, Supabase client, Stripe client, types
-store/               Zustand cart store
-data/                products.json + brands.json (generated from your spreadsheet)
-supabase/schema.sql  run this once in the Supabase SQL editor
-scripts/seed.ts       optional: push products.json into Supabase
-```
-
-## Notes
-
-- **Images** are served locally from `public/superclone-products/`; the
-  storefront does not depend on the source site to render its catalog.
-- **Currency** is USD throughout; change in `lib/products.ts` `formatPrice`
-  and the Stripe checkout route if you need multi-currency.
-- **Orders table** is locked down with RLS — all reads/writes happen via the
-  service-role key inside `/api/checkout` and `/api/webhook`, never from the
-  browser.
-- Catalog is organized under 6 source brands: Rolex, Audemars Piguet,
-  Richard Mille, Patek Philippe, Hublot, and Breitling.
+- app: pages and route handlers
+- components: shared interface components
+- data: product and brand indexes
+- lib: catalog, crypto payment, and Supabase helpers
+- store: persistent cart state
+- supabase: base schema and migrations

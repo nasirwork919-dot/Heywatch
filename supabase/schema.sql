@@ -35,7 +35,7 @@ create index if not exists idx_products_brand on products (brand);
 -- ─────────────────────────────────────────────────────────────
 create table if not exists orders (
   id uuid primary key default gen_random_uuid(),
-  stripe_session_id text unique,
+  stripe_session_id text unique, -- legacy external payment reference; retained for deployed DB compatibility
   customer_name text not null,
   customer_email text not null,
   customer_phone text,
@@ -44,7 +44,12 @@ create table if not exists orders (
   shipping_country text,
   currency text not null default 'USD',
   subtotal numeric(10, 2) not null,
-  status text not null default 'pending', -- pending | paid | cancelled | fulfilled
+  payment_asset text,
+  payment_network text,
+  payment_wallet_address text,
+  transaction_hash text unique,
+  payment_submitted_at timestamptz,
+  status text not null default 'payment_pending', -- payment_pending | payment_submitted | paid | cancelled | fulfilled
   created_at timestamptz not null default now()
 );
 
@@ -65,7 +70,7 @@ create index if not exists idx_order_items_order on order_items (order_id);
 -- Products: readable by anyone (public catalog).
 -- Orders: never readable/writable by the anon key directly —
 -- all order writes go through the service-role key in the
--- /api/checkout and /api/webhook route handlers.
+-- /api/checkout route handlers.
 -- ─────────────────────────────────────────────────────────────
 alter table products enable row level security;
 alter table brands enable row level security;

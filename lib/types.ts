@@ -39,6 +39,7 @@ export interface CartLine {
 
 export interface OrderInput {
   items: CartLine[];
+  paymentOptionId: string;
   customer: {
     name: string;
     email: string;
@@ -47,4 +48,11 @@ export interface OrderInput {
     country: string;
     phone: string;
   };
+}
+
+export interface CryptoPaymentSubmission {
+  orderId: string;
+  email: string;
+  paymentOptionId: string;
+  transactionHash: string;
 }
