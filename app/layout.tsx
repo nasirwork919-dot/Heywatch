@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import CookieConsent from "@/components/CookieConsent";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import { getAllBrands } from "@/lib/products-data";
 
 const fraunces = Fraunces({
@@ -45,6 +47,8 @@ export default function RootLayout({
         {children}
         <Footer />
         <CartDrawer />
+        <WhatsAppChat />
+        <CookieConsent />
       </body>
     </html>
   );

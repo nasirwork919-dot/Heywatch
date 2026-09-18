@@ -59,7 +59,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>International Shipping</li>
-              <li>2-Year Warranty</li>
+              <li>
+                <Link href="/warranty" className="hover:text-gold transition-colors">
+                  2-Year Warranty
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:Info@heywatches.com" className="hover:text-gold transition-colors">
+                  Info@heywatches.com
+                </a>
+              </li>
               <li>
                 <Link href="/privacy-policy" className="hover:text-gold transition-colors">
                   Privacy Policy
@@ -94,6 +103,9 @@ export default function Footer() {
             </Link>
             <Link href="/terms-and-conditions" className="transition-colors hover:text-gold">
               Terms
+            </Link>
+            <Link href="/cookie-policy" className="transition-colors hover:text-gold">
+              Cookies
             </Link>
             <span>Crafted with precision.</span>
           </div>

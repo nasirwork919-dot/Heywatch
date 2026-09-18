@@ -59,15 +59,16 @@ export default function PrivacyPolicyPage() {
           content: (
             <>
               <p>
-                We use Supabase to store order and transaction-reference records and Vercel to
-                host and deliver the website. Blockchain transactions are also recorded on the
-                relevant public network and may be permanently visible to anyone.
+                We accept bank transfers and supported cryptocurrencies as payment methods.
+                Cryptocurrency transactions are recorded on the relevant public blockchain and
+                may be permanently visible to anyone. We use Supabase to store order and
+                transaction-reference records and Vercel to host and deliver the website.
               </p>
               <p>
-                We may also disclose information to delivery providers, professional advisers,
-                authorities where legally required, or a successor in a legitimate business
-                transaction. We do not sell personal information or use it for cross-context
-                behavioural advertising based on the website's current functionality.
+                We share only the information needed with delivery providers and service
+                providers that help us operate the website and fulfil orders. We do not sell
+                personal information or use it for cross-context behavioural advertising based
+                on the website's current functionality.
               </p>
             </>
           ),
@@ -76,9 +77,9 @@ export default function PrivacyPolicyPage() {
           title: "Cookies and browser storage",
           content: (
             <p>
-              The website uses essential browser storage to remember your shopping bag. Clearing
-              your browser storage may remove saved bag contents. We do not currently use
-              advertising cookies on this site.
+              The website uses essential cookies and browser storage to remember cookie acceptance,
+              your shopping bag, and pending checkout progress. Clearing your browser storage may
+              remove these saved choices. We do not currently use advertising cookies on this site.
             </p>
           ),
         },
@@ -109,9 +110,9 @@ export default function PrivacyPolicyPage() {
                 also complain to your local data-protection authority.
               </p>
               <p>
-                To make a request, use the customer-support contact provided in your order
-                confirmation. We may need to verify your identity before completing a request.
-                Some information may be retained where law requires or permits it.
+                To make a request, email <a href="mailto:Info@heywatches.com">Info@heywatches.com</a>.
+                We may need to verify your identity before completing a request. Some information
+                may be retained where law requires or permits it.
               </p>
             </>
           ),

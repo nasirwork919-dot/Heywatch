@@ -71,10 +71,11 @@ export default function TermsAndConditionsPage() {
                 included. Your cart or checkout submission is an offer to purchase, not our acceptance.
               </p>
               <p>
-                Payment is made directly in one of the crypto assets and blockchain networks shown
-                at checkout. You are responsible for using the exact destination address, asset,
-                and network displayed for your order. Blockchain transfers are irreversible, and
-                funds sent using an unsupported asset, address, or network may be permanently lost.
+                We accept bank transfers and supported cryptocurrencies. Bank-transfer details may
+                be provided by client care for an eligible order. Cryptocurrency payments use the
+                asset, destination address, and blockchain network shown at checkout. You are
+                responsible for using those exact details. Blockchain transfers are irreversible,
+                and funds sent using an unsupported asset, address, or network may be permanently lost.
               </p>
               <p>
                 The USD total is the order's reference value. Where checkout instructs you to send
@@ -164,9 +165,9 @@ export default function TermsAndConditionsPage() {
                 govern that order unless law requires otherwise.
               </p>
               <p>
-                For order or legal questions, use the customer-support contact shown in your order
-                confirmation and include your order reference. Notices to you may be sent to the email
-                address supplied at checkout.
+                For order or legal questions, email{" "}
+                <a href="mailto:Info@heywatches.com">Info@heywatches.com</a> and include your
+                order reference. Notices to you may be sent to the email address supplied at checkout.
               </p>
             </>
           ),
