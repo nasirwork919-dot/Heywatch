@@ -30,7 +30,7 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-obsidian/90 backdrop-blur-xl">
       <div className="border-b border-line/60 bg-charcoal/70 px-6 py-2 text-center text-[9px] font-medium uppercase tracking-[0.24em] text-bone/55">
-        Inspected timepieces · Insured worldwide delivery · Two-year warranty
+        Inspected timepieces · Free shipping worldwide · Two-year warranty
       </div>
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-2 sm:px-8 lg:px-12">
         <Link href="/" className="group flex shrink-0 items-center gap-2.5 leading-none" aria-label="HEYWATCHES home">

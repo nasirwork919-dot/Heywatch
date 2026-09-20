@@ -3,7 +3,7 @@
 import { MessageCircle } from "lucide-react";
 
 const whatsappNumber = (
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "37063245939"
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "4550280975"
 ).replace(/\D/g, "");
 const greeting = encodeURIComponent("Hello HEYWATCHES, I would like help with a watch or an order.");
 

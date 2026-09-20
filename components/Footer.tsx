@@ -58,7 +58,11 @@ export default function Footer() {
                   Your Bag
                 </Link>
               </li>
-              <li>International Shipping</li>
+              <li>
+                <Link href="/shipping" className="hover:text-gold transition-colors">
+                  International Shipping
+                </Link>
+              </li>
               <li>
                 <Link href="/warranty" className="hover:text-gold transition-colors">
                   2-Year Warranty
@@ -94,6 +98,15 @@ export default function Footer() {
                 className="mt-2 inline-block text-sm text-bone/70 transition-colors hover:text-gold"
               >
                 Info@heywatches.com
+              </a>
+              <br />
+              <a
+                href="https://wa.me/4550280975"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block text-sm text-bone/70 transition-colors hover:text-gold"
+              >
+                WhatsApp: +45 50 28 09 75
               </a>
             </div>
           </div>
